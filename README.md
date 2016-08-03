@@ -26,4 +26,4 @@ The only nice capability is to look for a read_order.json file and zoom on singl
 }
 ```
 
-
+Actually the json parser is very niggling and require all the property in the same order shown in the example. It require empty array also
