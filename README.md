@@ -4,7 +4,7 @@ A simple cbz (no cbr or any other format) reader.
 
 The only nice capability is to look for a read_order.json file and zoom on single vignette
 
-<verbatim>
+```
 { "comicbook" : { "pages" : [ 
   {  "img" : "001.jpg",  "from" : { "x" : 0, "y" : 0 },  "to" : { "x" : 1221, "y" : 1644 },  "vignettes": [ 
   ]}
@@ -24,4 +24,6 @@ The only nice capability is to look for a read_order.json file and zoom on singl
       { "from" : { "x" : 0, "y": 537},  "to" : { "x" : 1162, "y": 1576} }
   ]}
 }
-</verbatim>
+```
+
+
