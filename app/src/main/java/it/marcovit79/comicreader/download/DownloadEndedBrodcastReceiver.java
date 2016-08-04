@@ -11,6 +11,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.util.ArrayMap;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
@@ -31,10 +32,12 @@ import java.util.jar.Manifest;
  */
 public class DownloadEndedBrodcastReceiver extends BroadcastReceiver {
 
+    private static final String LOG_TAG = "DownloadReceiver";
+
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        System.out.println("Received broadcast action " + action);
+        Log.d(LOG_TAG, "Received broadcast action " + action);
 
         try {
             String[] localUriAndFileName = retrieveInfo(context, intent);
@@ -45,7 +48,7 @@ public class DownloadEndedBrodcastReceiver extends BroadcastReceiver {
                 String localUriStr = localUriAndFileName[0];
                 String destFileName= localUriAndFileName[1];
 
-                System.out.println("COPY from " + localUriStr + " to " + destFileName );
+                Log.d(LOG_TAG, "COPY from " + localUriStr + " to " + destFileName );
                 CopyFileUtil.copyFileToLocalDir(context, localUriStr, comicDir, destFileName);
             }
 

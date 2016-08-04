@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,6 +24,7 @@ import it.marcovit79.comicreader.view.ViewComicActivity;
 
 public class ComicListActivity extends AppCompatActivity {
 
+    private static final String LOG_TAG = "ComicListActivity";
     private final BroadcastReceiver newComicReceiver;
 
     public ComicListActivity() {
@@ -63,7 +65,7 @@ public class ComicListActivity extends AppCompatActivity {
                 File dir = ComicListActivity.this.getDir("comics", Context.MODE_PRIVATE);
                 File f = new File(dir, fileName);
 
-                System.out.println("OPEN " + f);
+                Log.d(LOG_TAG, "OPEN " + f);
 
                 Intent intent = new Intent(ComicListActivity.this, ViewComicActivity.class);
                 intent.putExtra(ViewComicActivity.COMIC_PATH, f.getAbsolutePath());
@@ -80,7 +82,7 @@ public class ComicListActivity extends AppCompatActivity {
                 File dir = ComicListActivity.this.getDir("comics", Context.MODE_PRIVATE);
                 File f = new File(dir, fileName);
 
-                System.out.println("DELETE " + f);
+                Log.d(LOG_TAG, "DELETE " + f);
                 f.delete();
 
                 ComicListActivity.this.refreshFileList();
@@ -114,7 +116,7 @@ public class ComicListActivity extends AppCompatActivity {
         ArrayAdapter adapter = (ArrayAdapter) listView.getAdapter();
 
         File dir = this.getDir("comics", Context.MODE_PRIVATE);
-        System.out.println("Refreshing file list " + dir);
+        Log.d(LOG_TAG, "Refreshing file list " + dir);
 
         ArrayList<String> names = new ArrayList<>();
         for(File f : dir.listFiles() ) {
@@ -125,7 +127,7 @@ public class ComicListActivity extends AppCompatActivity {
         adapter.clear();
         for(String name: names ) {
             adapter.add(name);
-            System.out.println(name);
+            Log.d(LOG_TAG, name);
         };
     }
 

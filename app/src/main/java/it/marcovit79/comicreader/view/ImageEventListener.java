@@ -29,7 +29,6 @@ public class ImageEventListener implements ScaleGestureDetector.OnScaleGestureLi
 
     @Override
     public boolean onScaleBegin(ScaleGestureDetector detector) {
-        //System.out.println("SCALE BEGIN");
         return true;
     }
 
@@ -39,8 +38,6 @@ public class ImageEventListener implements ScaleGestureDetector.OnScaleGestureLi
         float x = detector.getFocusX();
         float y = detector.getFocusY();
         float ratio = detector.getScaleFactor();
-
-        //System.out.println("SCALE " + ratio );
 
         Matrix m = this.imgView.getImageMatrix();
         m.postScale( ratio, ratio, x, y);
@@ -53,18 +50,15 @@ public class ImageEventListener implements ScaleGestureDetector.OnScaleGestureLi
 
     @Override
     public void onScaleEnd(ScaleGestureDetector detector) {
-        //System.out.println("SCALE END");
     }
 
     @Override
     public boolean onDown(MotionEvent e) {
-        //System.out.println("GESTURE DOWN");
         return true;
         }
 
     @Override
     public void onShowPress(MotionEvent e) {
-        //System.out.println("GESTURE SHOW PRESS");
     }
 
     @Override
@@ -75,8 +69,6 @@ public class ImageEventListener implements ScaleGestureDetector.OnScaleGestureLi
 
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        //System.out.println("SCROLL " + distanceX + " " + distanceY);
-
         Matrix m = this.imgView.getImageMatrix();
         m.postTranslate(-distanceX, -distanceY);
         this.imgView.setImageMatrix(m);

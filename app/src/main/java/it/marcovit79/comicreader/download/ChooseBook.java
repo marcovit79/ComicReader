@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +21,8 @@ import it.marcovit79.comicreader.download.DownloadEndedBrodcastReceiver;
 import it.marcovit79.comicreader.download.ReadUrlTask;
 
 public class ChooseBook extends AppCompatActivity {
+
+    public static final String LOG_TAG = "DownloadGui";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +41,7 @@ public class ChooseBook extends AppCompatActivity {
         assert button != null;
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                System.out.println("Search CLICK");
+                Log.d(LOG_TAG, "Search CLICK");
                 String urlString = urlField.getText().toString();
                 new ReadUrlTask(adapter).execute(urlString);
             }
@@ -51,7 +54,7 @@ public class ChooseBook extends AppCompatActivity {
                 Object item = adapter.getItem(position);
                 String downloadUrl = urlString + "/" + String.valueOf(item);
 
-                System.out.println(downloadUrl);
+                Log.d(LOG_TAG, downloadUrl);
                 mkRequest(downloadUrl);
             }
         });
@@ -85,6 +88,6 @@ public class ChooseBook extends AppCompatActivity {
         DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(urlString));
         long reqId = dm.enqueue(request);
-        System.out.println("Download Request Id " + reqId);
+        Log.d(LOG_TAG, "Download Request Id " + reqId);
     }
 }

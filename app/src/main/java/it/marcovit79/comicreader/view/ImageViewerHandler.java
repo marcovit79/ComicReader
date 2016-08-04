@@ -6,10 +6,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Handler;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.ScaleGestureDetector;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import it.marcovit79.comicreader.view.data.Zone;
 
@@ -18,14 +20,17 @@ import it.marcovit79.comicreader.view.data.Zone;
  */
 public class ImageViewerHandler {
 
+    private static final String LOG_TAG = "ImageViewHandler";
     private ImageView imgView;
+    private TextView pageTxt;
     private ImageEventListener lsnr;
     private AnimationHandler animator;
 
 
     //private Handler h = new Handler();
 
-    public ImageViewerHandler(ImageView imgView) {
+    public ImageViewerHandler(ImageView imgView, TextView pageTxt) {
+        this.pageTxt = pageTxt;
         this.imgView = imgView;
         this.imgView.setScaleType(ImageView.ScaleType.MATRIX);
         initImageListeners();
@@ -33,8 +38,10 @@ public class ImageViewerHandler {
         this.animator = new AnimationHandler(this.imgView);
     }
 
-    public void setImage(Bitmap img) {
+    public void setPage(int page, int numPage, Bitmap img) {
         this.imgView.setImageBitmap(img);
+        this.pageTxt.setText("Page " + (page + 1) + " of " + numPage );
+
         Zone allImage = new Zone(0, 0, img.getWidth(), img.getHeight());
         zoomZone(allImage , false);
     }
@@ -43,7 +50,7 @@ public class ImageViewerHandler {
         zoomZone(zone, true);
     }
 
-    private void zoomZone(Zone zone, boolean animated) {
+    public void zoomZone(Zone zone, boolean animated) {
         //this.imgView.forceLayout();
         int viewWidth = this.imgView.getWidth();
         int viewHeight = this.imgView.getHeight();
@@ -60,13 +67,13 @@ public class ImageViewerHandler {
         }
 
 
-        //System.out.println("view("+ viewWidth + ", " + viewHeight + ")   " +
-        //        "  img(" + width + ", " + height + ")");
+        Log.d(LOG_TAG, "view("+ viewWidth + ", " + viewHeight + ")   " +
+                                                        "  img(" + width + ", " + height + ")");
 
         final float ratio = Math.min( viewHeight / (float) height, viewWidth / (float) width);
         final int fromX = zone.getFromX();
         final int fromY = zone.getFromY();
-        System.out.println("Ratio " + ratio + "  center(" + fromX + ", " + fromY + ")");
+        Log.d(LOG_TAG, "Ratio " + ratio + "  center(" + fromX + ", " + fromY + ")");
 
 
         Matrix newMatrix = new Matrix();

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
@@ -21,6 +22,7 @@ public class CopyFileUtil {
     public static final String NEW_COMIC_ACTION = "it.mvit79.comicreader.NEW_COMIC";
 
     public static final String COMICS_DIR_STR = "comics";
+    private static final String LOG_TAG = "DownloadReceiver";
 
     public static void copyFileToLocalDir(Context ctx, String localUri, File localDir, String localName) throws IOException {
         String destFileName;
@@ -41,7 +43,7 @@ public class CopyFileUtil {
 
         File dstFile = new File(localDir, localName);
 
-        System.out.println("CP \"" + srcFile+ "\"  \"" + dstFile + "\"");
+        Log.d(LOG_TAG, "CP \"" + srcFile+ "\"  \"" + dstFile + "\"");
         copy(srcFile, dstFile);
 
         ctx.sendBroadcast( new Intent( NEW_COMIC_ACTION ));

@@ -26,4 +26,6 @@ dependencies {
     compile 'com.android.support:design:23.4.0'
     compile 'com.android.support:support-v4:23.4.0'
 
+    compile 'com.fenchtose:tooltip:0.1.5'
+
 }

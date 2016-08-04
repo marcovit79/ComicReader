@@ -2,6 +2,7 @@ package it.marcovit79.comicreader.view.data;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import it.marcovit79.comicreader.view.UserViewportMovedListener;
  */
 public class ComicBook implements UserViewportMovedListener {
 
+    private static final String LOG_TAG = "ComicBook";
     private ImageViewerHandler view;
 
     private ZipFile comicFile;
@@ -50,18 +52,22 @@ public class ComicBook implements UserViewportMovedListener {
     }
 
     public void updateView() {
+        updateView(true);
+    }
+
+    public void updateView(boolean animate) {
         if(pageDirty) {
-            System.out.println("Update page");
+            Log.d(LOG_TAG, "Update page");
 
             Bitmap img = this.getImage(page);
-            this.view.setImage(img);
+            this.view.setPage(page, this.getNumOfPage(), img);
             pageDirty = false;
         }
 
         if(vignetteDirty) {
-            System.out.println("Update vignette");
+            Log.d(LOG_TAG, "Update vignette");
             Zone zone = this.data.getZone(page, vignette);
-            this.view.zoomZone(zone);
+            this.view.zoomZone(zone, animate);
             vignetteDirty = false;
         }
 
@@ -85,7 +91,7 @@ public class ComicBook implements UserViewportMovedListener {
     }
 
     public int getNumOfPage() {
-        return this.data.getPages().size();
+        return (this.data!=null ? this.data.getPages().size() : 0);
     }
 
     public Bitmap getImage(int page) {
@@ -168,12 +174,12 @@ public class ComicBook implements UserViewportMovedListener {
         this.viewportModified = true;
     }
 
-    public void relayoutCurrentZoneIfOnZoneAndUpdateView() {
-        System.out.println("Relayout");
+    public void relayoutCurrentZoneIfOnZoneAndUpdateView(boolean animate) {
+        Log.d(LOG_TAG, "Relayout");
         if(!viewportModified) {
             this.pageDirty = true;
             this.vignetteDirty = true;
-            this.updateView();
+            this.updateView(animate);
         }
     }
 }

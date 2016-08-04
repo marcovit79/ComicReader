@@ -27,7 +27,6 @@ public class ReadUrlTask extends AsyncTask<String, Integer, List<String>> {
     @Override
     protected List<String> doInBackground(String... params) {
         StringBuilder str = new StringBuilder();
-        System.out.println("Get content of ...");
 
         for(String param: params) {
             try(InputStream inStrm = new URL(param).openStream() ) {
@@ -42,7 +41,6 @@ public class ReadUrlTask extends AsyncTask<String, Integer, List<String>> {
                 str.append(exc.getMessage());
             }
         }
-        System.out.println(str.toString());
 
         List<String> books = new ArrayList<String>();
         for(String line : str.toString().split("\n")) {

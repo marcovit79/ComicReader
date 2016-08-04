@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.JsonReader;
 import android.util.JsonToken;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,7 +54,6 @@ public class ComicsDataFactory {
             data = mkDefaultData(comicFile, zipPages);
         }
 
-        System.out.println("COMIC DATA: " + data);
         return data;
     }
 

@@ -23,10 +23,22 @@
             android:textColor="#33b5e5"
             android:textSize="50sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_gravity="center"
+            android:id="@+id/page_num_hover"
+            android:typeface="monospace"
+            android:background="#a1ffffff"
+            android:padding="@dimen/abc_action_bar_content_inset_material" />
+
     </FrameLayout>
 
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -43,19 +55,44 @@
             tools:ignore="UselessParent"
             android:gravity="end">
 
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="10">
+
+                <SeekBar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/pageBar"
+                    android:layout_weight="1"
+                    android:indeterminate="false" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:id="@+id/page_down_txt"
+                    android:progressDrawable="@drawable/apptheme_scrubber_progress_horizontal_holo_light"
+                    android:layout_gravity="center_horizontal" />
+            </LinearLayout>
+
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/prevButton"
-                android:src="@android:drawable/ic_media_rew" />
+                android:src="@android:drawable/ic_media_rew"
+                android:layout_weight="1" />
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/nextButton"
-                android:src="@android:drawable/ic_media_ff" />
+                android:src="@android:drawable/ic_media_ff"
+                android:layout_weight="1" />
 
         </LinearLayout>
+
     </FrameLayout>
 
 </FrameLayout>
