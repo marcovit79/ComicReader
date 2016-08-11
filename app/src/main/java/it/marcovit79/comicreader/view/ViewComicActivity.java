@@ -1,29 +1,22 @@
 package it.marcovit79.comicreader.view;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Rect;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.fenchtose.tooltip.Tooltip;
 
 import java.io.File;
 import java.io.IOException;
 
 import it.marcovit79.comicreader.R;
 import it.marcovit79.comicreader.view.data.ComicBook;
+import it.marcovit79.comicreader.vignetting.VignettingIssueCollector;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -32,7 +25,7 @@ import it.marcovit79.comicreader.view.data.ComicBook;
 public class ViewComicActivity extends AppCompatActivity implements DelayToolbarHideListener {
 
     public static final String COMIC_PATH = "comics";
-    public static final int TOOLBAR_HIDE_DELAY_MS = 5 * 1000;
+    public static final int TOOLBAR_HIDE_DELAY_MS = 3 * 1000;
     private static final String LOG_TAG = "ViewComicActivity";
 
     @Override
@@ -43,15 +36,18 @@ public class ViewComicActivity extends AppCompatActivity implements DelayToolbar
         View controls = findViewById(R.id.fullscreen_content_controls);
         View content = findViewById(R.id.fullscreen_content);
         ImageView imgView = (ImageView) findViewById(R.id.img_viewer);
-
         SeekBar pageBar = (SeekBar) findViewById(R.id.pageBar);
         TextView pageTextHover = (TextView)  findViewById(R.id.page_num_hover);
         TextView pageText = (TextView)  findViewById(R.id.page_down_txt);
 
+        ImageViewerHandler imgViewHandler = new ImageViewerHandler(imgView, pageText);
+
         this.toggler = new ViewToggler(this, content, controls);
-        this.comicBook = new ComicBook( new ImageViewerHandler(imgView, pageText));
+        this.comicBook = new ComicBook( imgViewHandler);
         this.pageBarHandler = new PageBarHandler(this, comicBook, pageBar, pageTextHover);
 
+        VignettingIssueCollector vignettingAdv = new VignettingIssueCollector(getApplicationContext(), comicBook);
+        imgViewHandler.setVignettingDebugger(vignettingAdv);
 
         // Set up the user interaction to manually show or hide the system UI.
         imgView.setOnClickListener(new View.OnClickListener() {

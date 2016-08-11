@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
+    android:background="#000000"
     tools:context="it.marcovit79.comicreader.view.ViewComicActivity">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
@@ -66,6 +66,10 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/pageBar"
                     android:layout_weight="1"
+                    android:progressDrawable="@drawable/progress"
+                    android:thumb="@drawable/thumb"
+                    android:minHeight="3dip"
+                    android:maxHeight="3dip"
                     android:indeterminate="false" />
 
                 <TextView
@@ -73,8 +77,8 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:id="@+id/page_down_txt"
-                    android:progressDrawable="@drawable/apptheme_scrubber_progress_horizontal_holo_light"
-                    android:layout_gravity="center_horizontal" />
+                    android:layout_gravity="center_horizontal"
+                    android:background="#aaffffff" />
             </LinearLayout>
 
             <ImageButton

@@ -1,6 +1,7 @@
 package it.marcovit79.comicreader.download;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
@@ -39,7 +40,7 @@ public class ReceiveFileActivity extends AppCompatActivity {
             okBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    requestPermissions();
+                    CopyFileUtil.requestPermissions(ReceiveFileActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE);
                     try {
                         File comicDir = getApplicationContext().getDir(CopyFileUtil.COMICS_DIR_STR, Context.MODE_PRIVATE);
                         CopyFileUtil.copyFileToLocalDir(
@@ -68,32 +69,6 @@ public class ReceiveFileActivity extends AppCompatActivity {
         else {
             this.finish();
         }
-
-
     }
-
-
-
-    private void requestPermissions() {
-        // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(
-                    this,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
-            );
-        }
-    }
-
-    // Storage Permissions
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-    };
-
 
 }

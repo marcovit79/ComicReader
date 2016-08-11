@@ -1,10 +1,14 @@
 package it.marcovit79.comicreader.download;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -80,7 +84,7 @@ public class CopyFileUtil {
         return path;
     }
 
-    private static void copy(File src, File dst) throws IOException {
+    public static void copy(File src, File dst) throws IOException {
         FileInputStream inStream = new FileInputStream(src);
         FileOutputStream outStream = new FileOutputStream(dst);
         FileChannel inChannel = inStream.getChannel();
@@ -89,4 +93,25 @@ public class CopyFileUtil {
         inStream.close();
         outStream.close();
     }
+
+    public static boolean requestPermissions(Activity activity, String permissionStr) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, permissionStr);
+
+        boolean result;
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
+                    1
+            );
+            result = false;
+        }
+        else {
+            result = true;
+        }
+        return result;
+    }
+
 }

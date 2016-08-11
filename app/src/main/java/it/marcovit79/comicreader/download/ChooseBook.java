@@ -87,6 +87,7 @@ public class ChooseBook extends AppCompatActivity {
     public void mkRequest(String urlString) {
         DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(urlString));
+        request.setTitle( urlString.replaceFirst(".*/", ""));
         long reqId = dm.enqueue(request);
         Log.d(LOG_TAG, "Download Request Id " + reqId);
     }

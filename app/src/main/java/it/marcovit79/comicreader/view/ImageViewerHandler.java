@@ -1,19 +1,13 @@
 package it.marcovit79.comicreader.view;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.os.Handler;
 import android.util.Log;
-import android.view.GestureDetector;
-import android.view.ScaleGestureDetector;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import it.marcovit79.comicreader.view.data.Zone;
+import it.marcovit79.comicreader.vignetting.VignettingIssueCollector;
 
 /**
  * Created by mvit on 30-7-16.
@@ -96,4 +90,7 @@ public class ImageViewerHandler {
         lsnr.setViewportMovedLsnr(viewportMovedLsnr);
     }
 
+    public void setVignettingDebugger(VignettingIssueCollector vignettingDebugger) {
+        lsnr.setVignettingDebugger(vignettingDebugger);
+    }
 }

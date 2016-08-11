@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,11 +22,15 @@ import java.util.Collections;
 import it.marcovit79.comicreader.download.ChooseBook;
 import it.marcovit79.comicreader.download.CopyFileUtil;
 import it.marcovit79.comicreader.view.ViewComicActivity;
+import it.marcovit79.comicreader.vignetting.VignettingIssueCollector;
+import it.marcovit79.comicreader.vignetting.VignettingIssueSender;
 
 public class ComicListActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = "ComicListActivity";
     private final BroadcastReceiver newComicReceiver;
+
+    private VignettingIssueSender issueSender;
 
     public ComicListActivity() {
         newComicReceiver = new BroadcastReceiver() {
@@ -39,10 +44,11 @@ public class ComicListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_comic_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        this.issueSender = new VignettingIssueSender(this);
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -90,6 +96,15 @@ public class ComicListActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.send_issues_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(issueSender != null) {
+                    issueSender.sendVignetteIssueEmail();
+                }
+            }
+        });
+
         refreshFileList();
     }
 
@@ -103,6 +118,21 @@ public class ComicListActivity extends AppCompatActivity {
 
         refreshFileList();
         registerReceiver(newComicReceiver, newComic);
+
+        syncVignettingIssueIndicator();
+
+    }
+
+    private void syncVignettingIssueIndicator() {
+        View sendIssueBtn = findViewById(R.id.send_issues_btn);
+
+        boolean sendIssuesOn = false;
+        if(issueSender != null) {
+            sendIssuesOn = issueSender.areVignettingIssuesPresent();
+        }
+
+        int visibility = (sendIssuesOn ? View.VISIBLE : View.GONE);
+        sendIssueBtn.setVisibility( visibility );
     }
 
     @Override
@@ -131,4 +161,18 @@ public class ComicListActivity extends AppCompatActivity {
         };
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        deleteHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                issueSender.clearCacheAndIsues();
+                syncVignettingIssueIndicator();
+            }
+        }, 2000);
+    }
+
+    private final Handler deleteHandler = new Handler();
 }

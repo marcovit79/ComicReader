@@ -7,6 +7,8 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.ImageView;
 
+import it.marcovit79.comicreader.vignetting.VignettingIssueCollector;
+
 /**
  * Created by mvit on 1-8-16.
  */
@@ -17,6 +19,7 @@ public class ImageEventListener implements ScaleGestureDetector.OnScaleGestureLi
     private GestureDetector gestureDetector;
 
     private UserViewportMovedListener viewportMovedLsnr;
+    private VignettingIssueCollector vignettingDebugger;
 
     public ImageEventListener(ImageView imgView) {
         this.imgView = imgView;
@@ -80,6 +83,9 @@ public class ImageEventListener implements ScaleGestureDetector.OnScaleGestureLi
 
     @Override
     public void onLongPress(MotionEvent e) {
+        if(this.vignettingDebugger != null) {
+            this.vignettingDebugger.addCurrentImage();
+        }
     }
 
     @Override
@@ -111,5 +117,13 @@ public class ImageEventListener implements ScaleGestureDetector.OnScaleGestureLi
 
     public void setViewportMovedLsnr(UserViewportMovedListener viewportMovedLsnr) {
         this.viewportMovedLsnr = viewportMovedLsnr;
+    }
+
+    public VignettingIssueCollector getVignettingDebugger() {
+        return vignettingDebugger;
+    }
+
+    public void setVignettingDebugger(VignettingIssueCollector vignettingDebugger) {
+        this.vignettingDebugger = vignettingDebugger;
     }
 }

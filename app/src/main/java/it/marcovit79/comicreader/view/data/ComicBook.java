@@ -51,6 +51,14 @@ public class ComicBook implements UserViewportMovedListener {
         setPage(0);
     }
 
+    public String getComicFilePath() {
+        String path = null;
+        if(comicFile != null) {
+            path = comicFile.getName();
+        }
+        return path;
+    }
+
     public void updateView() {
         updateView(true);
     }
@@ -112,6 +120,15 @@ public class ComicBook implements UserViewportMovedListener {
             img = null;
         }
         return img;
+    }
+
+    public String getImageName(int page) {
+        String imagePath = null;
+        if(page >= 0 && page < this.getNumOfPage() ) {
+            Page p = this.data.getPages().get(page);
+            imagePath = p.getImage();
+        }
+        return imagePath;
     }
 
     public void nextVignette() {
